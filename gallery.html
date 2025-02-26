@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="coaching_logo_final-removebg.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Gallery</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .navbar {
+            padding: 1rem 0;
+            background-color: var(--text-dark);
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+            padding: 0.5rem 1rem !important;
+        }
+
+        .nav-link:hover {
+            color: #e5e7eb !important;
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            position: relative;
+            min-height: 600px;
+            color: white;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('hero_image.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-dark);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .topper-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .topper-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .celebration-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .topper-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 1.5rem auto;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+
+        .toppers {
+            background-color: #f8fafc;
+            padding: 5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+            
+            .celebration-grid, .toppers-grid {
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+        }
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+        }
+
+        .main-photo {
+            position: relative;
+            height: 400px;
+        }
+
+        .main-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .photo-count {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .thumbnails-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .thumbnail {
+            height: 195px;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-photo {
+                height: 300px;
+            }
+
+        }
+
+        .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        overflow-y: auto;
+        padding: 20px;
+    }
+
+    .modal-content {
+        position: relative;
+        width: 95%;
+        max-width: 1200px;
+        margin: 20px auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .modal-image-container {
+        aspect-ratio: 1;
+        overflow: hidden;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .modal-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .modal-image-container:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Single Image Preview Modal */
+    .preview-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.95);
+        z-index: 1001;
+    }
+
+    .preview-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .preview-image {
+        max-width: 90%;
+        max-height: 90vh;
+        object-fit: contain;
+    }
+
+    .preview-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .preview-title {
+        color: white;
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .close {
+        color: white;
+        font-size: 35px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 0 15px;
+    }
+
+    .nav-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: white;
+        font-size: 40px;
+        cursor: pointer;
+        padding: 20px;
+        opacity: 0.7;
+        transition: opacity 0.3s;
+    }
+
+    .nav-button:hover {
+        opacity: 1;
+    }
+
+    .prev-button {
+        left: 10px;
+    }
+
+    .next-button {
+        right: 10px;
+    }
+
+    /* Original gallery styling remains the same */
+    .gallery-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 10px;
+    }
+
+    .main-photo {
+        position: relative;
+        height: 400px;
+    }
+
+    .main-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .photo-count {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+    }
+
+    .thumbnails-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .thumbnail {
+        height: 195px;
+    }
+
+    .thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .gallery-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .main-photo {
+            height: 300px;
+        }
+
+        .modal-content {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+
+        .preview-modal {
+            width: 95%;
+            height: 90vh;
+        }
+
+        .modal-content {
+            flex-direction: column;
+        }
+
+        .thumbnails-sidebar {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 10px;
+        }
+
+        .thumbnail-wrapper {
+            min-width: 150px;
+            height: 100px;
+            margin-right: 10px;
+            margin-bottom: 0;
+        }
+    }
+
+    .preview-modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 1100px;
+        height: 85vh;
+        background: white;
+        border-radius: 8px;
+        z-index: 1001;
+        overflow: hidden;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .modal-title {
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .close-button {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0 10px;
+    }
+
+    /* .modal-content {
+        display: flex;
+        height: calc(100% - 60px);
+    } */
+
+    .thumbnails-sidebar {
+        width: 280px;
+        height: 100%;
+        overflow-y: auto;
+        padding: 15px;
+        border-right: 1px solid #eee;
+    }
+
+    .thumbnail-wrapper {
+        margin-bottom: 15px;
+        cursor: pointer;
+    }
+
+    .thumbnail-wrapper img {
+        width: 100%;
+        border-radius: 4px;
+        transition: opacity 0.2s;
+    }
+
+    .thumbnail-wrapper:hover img {
+        opacity: 0.8;
+    }
+
+    .main-image-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: #f8f8f8;
+    }
+
+    .main-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        z-index: 1000;
+    }
+
+    /* Different aspect ratios for thumbnails */
+    .thumbnail-wrapper:nth-child(odd) {
+        aspect-ratio: 4/3;
+    }
+
+    .thumbnail-wrapper:nth-child(even) {
+        aspect-ratio: 16/9;
+    }
+
+    .thumbnail-wrapper img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Scrollbar styling */
+    .thumbnails-sidebar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .thumbnails-sidebar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .thumbnails-sidebar::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+
+    .thumbnails-sidebar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    .event-section {
+background-color: #f0f4ff; /* Light background color */
+padding: 2rem; /* Padding around the section */
+border-radius: 8px; /* Rounded corners */
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.event-section h2 {
+color: #2563eb; /* Primary color for the main heading */
+text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+font-weight: 700; /* Bold font weight */
+}
+
+.event-section h4 {
+color: #1d4ed8; /* Darker shade for the subheading */
+font-weight: 500; /* Medium font weight */
+margin-top: 0.5rem; /* Space above the subheading */
+}
+
+.about-us {
+background-color: #f8f9fa; /* Light background color */
+padding: 4rem 0; /* Padding for top and bottom */
+border-radius: 8px; /* Rounded corners */
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.section-title {
+text-align: center;
+color: var(--primary-color); /* Use primary color for the title */
+margin-bottom: 2rem; /* Space below the title */
+}
+
+.about-us h3 {
+color: var(--primary-color); /* Primary color for subheadings */
+margin-top: 1.5rem; /* Space above subheadings */
+}
+
+.about-us p {
+color: var(--text-dark); /* Dark text color for paragraphs */
+line-height: 1.6; /* Improved line height for readability */
+}
+
+.about-us ul {
+list-style-type: disc; /* Bullet points for the list */
+padding-left: 20px; /* Indentation for the list */
+}
+
+.about-us ul li {
+color: var(--text-dark); /* Dark text color for list items */
+margin-bottom: 0.5rem; /* Space between list items */
+}
+
+.courses-offered {
+background-color: #f8f9fa; /* Light background color */
+padding: 4rem 0; /* Padding for top and bottom */
+border-radius: 8px; /* Rounded corners */
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.courses-offered .section-title {
+color: var(--primary-color); /* Use primary color for the title */
+margin-bottom: 2rem; /* Space below the title */
+text-align: center; /* Center the title */
+}
+
+.course-card {
+background-color: white; /* White background for course cards */
+border-radius: 8px; /* Rounded corners */
+padding: 2rem; /* Padding inside the card */
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+margin-bottom: 2rem; /* Space below each card */
+transition: transform 0.3s; /* Smooth transition for hover effect */
+}
+
+.course-card:hover {
+transform: translateY(-5px); /* Lift effect on hover */
+}
+
+.courses-offered h4 {
+color: var(--text-dark); /* Dark text color for subheading */
+margin-top: 2rem; /* Space above the subheading */
+}
+
+.courses-offered ul {
+list-style-type: none; /* Remove default list styling */
+padding: 0; /* Remove padding */
+}
+
+.courses-offered ul li {
+color: var(--primary-color); /* Primary color for list items */
+font-weight: 500; /* Medium font weight */
+margin: 0.5rem 0; /* Space between list items */
+}
+
+.boards-list {
+display: flex; /* Use flexbox for alignment */
+justify-content: center; /* Center the items */
+flex-wrap: wrap; /* Allow items to wrap to the next line */
+margin-top: 1rem; /* Space above the list */
+}
+
+.board-item {
+background-color: var(--primary-color); /* Primary color for the background */
+color: white; /* White text color */
+padding: 1rem 2rem; /* Padding inside each item */
+border-radius: 8px; /* Rounded corners */
+margin: 0.5rem; /* Space between items */
+font-weight: 600; /* Bold font weight */
+transition: transform 0.3s; /* Smooth transition for hover effect */
+flex: 1 1 150px; /* Allow items to grow and shrink, with a base width of 150px */
+}
+
+.board-item:hover {
+transform: translateY(-3px); /* Lift effect on hover */
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+}
+.faculty-members {
+background-color: #f8f9fa; /* Light background color */
+padding: 4rem 0; /* Padding for top and bottom */
+border-radius: 8px; /* Rounded corners */
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.faculty-card {
+background-color: white; /* White background for faculty cards */
+border-radius: 8px; /* Rounded corners */
+padding: 2rem; /* Padding inside the card */
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+margin-bottom: 2rem; /* Space below each card */
+transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+text-align: center; /* Center text inside the card */
+}
+
+.faculty-photo {
+width: 120px; /* Fixed width for the photo */
+height: 120px; /* Fixed height for the photo */
+border-radius: 50%; /* Circular photo */
+margin-bottom: 1rem; /* Space below the photo */
+transition: transform 0.3s; /* Smooth transition for hover effect */
+object-fit: cover; /* Ensure the image covers the area without distortion */
+border: 3px solid var(--primary-color); /* Border around the photo */
+}
+
+.faculty-card:hover {
+transform: translateY(-5px); /* Lift effect on hover */
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+}
+
+.faculty-card h3 {
+margin: 0.5rem 0; /* Space above and below the name */
+font-weight: 600; /* Bold font weight */
+color: var(--text-dark); /* Dark text color for names */
+}
+
+.faculty-card p {
+color: var(--text-light); /* Muted text color for roles */
+font-size: 0.9rem; /* Slightly smaller font size for roles */
+margin: 0.2rem 0; /* Space between paragraphs */
+}
+.faculty-card p strong {
+font-weight: bold; /* Bold text for experience and subjects */
+}
+.experience {
+font-style: italic; /* Italic style for experience */
+}
+
+.subjects {
+font-weight: 500; /* Medium font weight for subjects */
+}
+#reviews-container {
+background-color: #f0f0f0;
+padding: 20px;
+border-radius: 5px;
+}
+
+.review {
+border: 1px solid #ccc;
+padding: 15px;
+margin: 10px 0;
+border-radius: 5px;
+background-color: #fff;
+}
+
+.top-performers {
+background-color: #f0f4ff;
+padding: 4rem 0;
+border-radius: 8px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.performer-card {
+background-color: white;
+border-radius: 15px;
+padding: 2rem;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+margin-bottom: 2rem;
+transition: transform 0.3s, box-shadow 0.3s;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+
+.performer-card::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 5px;
+background: linear-gradient(90deg, #2563eb, #1d4ed8);
+}
+
+.performer-photo {
+width: 150px;
+height: 150px;
+border-radius: 50%;
+margin: 0 auto 1rem;
+object-fit: cover;
+border: 4px solid #2563eb;
+transition: transform 0.3s;
+}
+
+.performer-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.performer-card:hover .performer-photo {
+transform: scale(1.05);
+}
+
+.performer-name {
+color: #1f2937;
+font-size: 1.5rem;
+font-weight: 700;
+margin: 1rem 0 0.5rem;
+}
+
+.performer-class {
+color: #2563eb;
+font-weight: 600;
+font-size: 1.1rem;
+margin-bottom: 0.5rem;
+}
+
+.performer-percentage {
+background: linear-gradient(90deg, #2563eb, #1d4ed8);
+color: white;
+padding: 0.5rem 1.5rem;
+border-radius: 20px;
+display: inline-block;
+font-weight: 600;
+margin-top: 0.5rem;
+}
+
+.achievement-badge {
+position: absolute;
+top: 20px;
+right: 20px;
+width: 40px;
+height: 40px;
+background-color: #ffd700;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 20px;
+color: #1f2937;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+    position: relative;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 2rem 0;
+            font-family: Arial, sans-serif;
+            bottom: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .brand {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .brand-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .brand-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #60a5fa;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="coaching_logo_final-removebg.png" alt="Logo" height="75px" width="65px">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Courses</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Our Faculty</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contactus.html" target="_blank">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="event-section text-center my-4" id="gallery">
+        <h2 class="display-4">JUPITER EVENTS</h2>
+        <h4 class="text-muted">Children's Day Celebration</h4>
+    </div>
+
+    <div class="gallery-container" >
+        <div class="gallery-grid">
+            <div class="main-photo" onclick="openModal()">
+                <img src="./jupiter/DSC_0442.JPG" alt="Main photo">
+                <div class="photo-count">15+ Photos</div>
+            </div>
+            <div class="thumbnails-grid">
+                <div class="thumbnail">
+                    <img src="./jupiter/DSC_0400.JPG" alt="Thumbnail 1" onclick="openModal()">
+                </div>
+                <div class="thumbnail">
+                    <img src="./jupiter/DSC_0417.JPG" alt="Thumbnail 2" onclick="openModal()">
+                </div>
+                <div class="thumbnail">
+                    <img src="./jupiter/DSC_0413.JPG" alt="Thumbnail 3" onclick="openModal()">
+                </div>
+                <div class="thumbnail">
+                    <img src="./jupiter/DSC_0422.JPG" alt="Thumbnail 4" onclick="openModal()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="galleryModal" class="modal">
+        <button class="close" onclick="closeModal()">&times;</button>
+        <div class="modal-content" id="modalContent">
+            <!-- Images will be inserted here dynamically -->
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="preview-modal" id="previewModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Gallery Preview</h3>
+            <button class="close-button" onclick="closePreview()">&times;</button>
+        </div>
+        <div class="preview-content">
+            <div class="thumbnails-sidebar" id="thumbnailsSidebar"></div>
+            <div class="main-image-container">
+                <img id="mainImage" class="main-image" src="" alt="Main preview">
+            </div>
+        </div>
+    </div> 
+    
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="brand-container">
+                    <img src="coaching_logo_final-removebg.png" alt="Jupiter Classes Logo" class="brand-logo">
+                    <div class="brand">Jupiter Classes</div>
+                </div>
+                
+                <nav class="nav-links">
+                    <a href="/">Home</a>
+                    <a href="/courses">Courses</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
+                </nav>
+
+                <div class="social-links">
+                    <a href="https://facebook.com" aria-label="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://twitter.com" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://instagram.com" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+
+                <div class="copyright">
+                    © 2025 Jupiter Classes. All rights reserved.<br>Designed and developed by <a href="#">Danyal Ahmed</a>. 
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const modal = document.getElementById("galleryModal");
+        const previewModal = document.getElementById("previewModal");
+        const previewImage = document.getElementById("previewImage");
+        const modalContent = document.getElementById("modalContent");
+        const modalOverlay = document.getElementById('modalOverlay');
+        const thumbnailsSidebar = document.getElementById('thumbnailsSidebar');
+        const mainImage = document.getElementById('mainImage');
+
+        // Array of all image URLs
+        const imageUrls = [
+            './jupiter/DSC_0442.JPG',
+            './jupiter/DSC_0400.JPG',
+            './jupiter/DSC_0417.JPG',
+            './jupiter/DSC_0413.JPG',
+            './jupiter/DSC_0375.JPG',
+            './jupiter/DSC_0382.JPG',
+            './jupiter/DSC_0386.JPG',
+            './jupiter/DSC_0389.JPG',
+            './jupiter/DSC_0392.JPG',
+            './jupiter/DSC_0395.JPG',
+            './jupiter/DSC_0399.JPG',
+            './jupiter/DSC_0404.JPG',
+            './jupiter/DSC_0406.JPG',
+            './jupiter/DSC_0408.JPG',
+            './jupiter/DSC_0409.JPG',
+            './jupiter/DSC_0412.JPG',
+            './jupiter/DSC_0416.JPG',
+            './jupiter/DSC_0417.JPG',
+            './jupiter/DSC_0420.JPG',
+            './jupiter/DSC_0422.JPG',
+            './jupiter/DSC_0423.JPG',
+            './jupiter/DSC_0429.JPG',
+            './jupiter/DSC_0431.JPG',
+            './jupiter/DSC_0432.JPG',
+            './jupiter/DSC_0395.JPG',
+            './jupiter/DSC_0434.JPG',
+            './jupiter/DSC_0440.JPG',
+            './jupiter/DSC_0446.JPG',
+            './jupiter/DSC_0458.JPG',
+            // Add all your image URLs here
+        ];
+
+        let currentImageIndex = 0;
+
+        function createGalleryItems() {
+            modalContent.innerHTML = '';
+            imageUrls.forEach((url, index) => {
+                const container = document.createElement('div');
+                container.className = 'modal-image-container';
+                
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = 'Gallery image';
+                img.onclick = () => openPreview(index);
+                
+                container.appendChild(img);
+                modalContent.appendChild(container);
+            });
+        }
+
+        function openModal() {
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+            createGalleryItems();
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        function openPreview(index) {
+            currentImageIndex = index;
+            previewImage.src = imageUrls[index];
+            previewModal.style.display = "block";
+        }
+
+        function closePreview() {
+            previewModal.style.display = "none";
+        }
+
+        function navigate(direction) {
+            currentImageIndex = (currentImageIndex + direction + imageUrls.length) % imageUrls.length;
+            previewImage.src = imageUrls[currentImageIndex];
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+            if (event.target == previewModal) {
+                closePreview();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (previewModal.style.display === "block") {
+                if (e.key === "ArrowLeft") {
+                    navigate(-1);
+                } else if (e.key === "ArrowRight") {
+                    navigate(1);
+                } else if (e.key === "Escape") {
+                    closePreview();
+                }
+            } else if (modal.style.display === "block" && e.key === "Escape") {
+                closeModal();
+            }
+        });
+
+        function createThumbnails() {
+        const thumbnailsSidebar = document.getElementById('thumbnailsSidebar');
+        thumbnailsSidebar.innerHTML = '';
+        
+        imageUrls.forEach((url, index) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'thumbnail-wrapper';
+            
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = `Thumbnail ${index + 1}`;
+            img.onclick = () => {
+                showImage(url);
+                // Update active state
+                document.querySelectorAll('.thumbnail-wrapper').forEach(w => w.classList.remove('active'));
+                wrapper.classList.add('active');
+            };
+            
+            wrapper.appendChild(img);
+            thumbnailsSidebar.appendChild(wrapper);
+        });
+    }
+
+    function showImage(url) {
+        const mainImage = document.getElementById('mainImage');
+        mainImage.src = url;
+    }
+
+    function openPreview(initialImageUrl) {
+        const previewModal = document.getElementById('previewModal');
+        createThumbnails();
+        showImage(initialImageUrl || imageUrls[0]);
+        previewModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        
+        // Set first thumbnail as active
+        const firstThumbnail = document.querySelector('.thumbnail-wrapper');
+        if (firstThumbnail) firstThumbnail.classList.add('active');
+    }
+
+    function closePreview() {
+        const previewModal = document.getElementById('previewModal');
+        previewModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.getElementById('previewModal').style.display === 'block') {
+            closePreview();
+        }
+    });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

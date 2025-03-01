@@ -1,40 +1,40 @@
 const testimonials = [
     {
-        image: "./reviewers/sultana.png",
+        image: "sultana.png",
         text: "Jupiter classes is a very nice coaching centre very friendly teacher’s .My daughter started going there before she was hating Science but in one week I have seen improvement .Mr Arif is a very good teacher just like a friend.",
         name: "Sultana Mahboob",
         rating: 5
     },
     {
-        image: "./reviewers/asim.png",
+        image: "asim.png",
         text: "Very friendly teachers and cheerful atmosphere perfect for studying and they try and make every lesson very simple and easy for students to understand.... Thanks Arif sir u literally made me fall in love with studies....",
         name: "Md Asim",
         position: "CEO, TechStart Inc.",
         rating: 5
     },
     {
-        image: "./reviewers/s.png",
+        image: "s.png",
         text: "Best coaching class in kidderpore I was very weak in science then I joined Jupiter classes my base is became very strong and I am scoring good marks",
         name: "8A 19 Md Shahnawaz Khan",
         position: "Project Manager",
         rating: 5
     },
     {
-        image: "./reviewers/ayesha.png",
+        image: "ayesha.png",
         text: "For better improvement this class is best and the teachers over here are highly educated and well experienced...My child is performing well in studies after joining this institution. Thankyou Arif Sir🙏🏻🙏🏻",
         name: "Ayesha Begum",
         position: "Operations Manager",
         rating: 5
     },
     {
-        image: "./reviewers/ali.png",
+        image: "ali.png",
         text: "Very good coaching center. Arif sir is a very good teacher",
         name: "Sk shamsheer Ali",
         position: "Design Director",
         rating: 5
     },
     {
-        image: "./reviewers/gaurav.png",
+        image: "gaurav.png",
         text: "Exceptional coaching centre. Kunal sir is very knowledgeable and is passionate about teaching.",
         name: "Gourav Roy",
         position: "Financial Analyst",
